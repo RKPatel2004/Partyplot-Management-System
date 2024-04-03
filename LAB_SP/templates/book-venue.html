@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Venue - Party Plot Management</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'index' %}">Party Plot Management</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'search_venues' %}">Search Venues</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'your_booking' %}">Your Booking</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'reviews' %}">Reviews</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h1 class="text-center">Book Venue</h1>
+    
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <form id="book-venue-form" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="venue-name">Select Venue:</label>
+            <select class="form-control" id="venue-name" name="venue-name" required>
+                <option value="{{ request.GET.venue_name }}" selected>{{ request.GET.venue_name }}</option>
+            </select>
+            
+        </div>
+        <div class="form-group">
+            <label for="date">Date:</label>
+            <input type="date" class="form-control" id="date" name="date" required>
+            <span class="invalid-date-message" style="color: red; display: none;">Please select a future date.</span>
+        </div>
+        <div class="form-group">
+            <label for="booking-price">Booking Price:</label>
+            <input type="text" class="form-control" id="booking-price" name="booking-price" value="{{ request.GET.booking_price }}" readonly>
+        </div>        
+        <button type="submit" class="btn btn-primary">Book Now</button>
+    </form>
+   
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    function updateBookingPrice() {
+        var venueSelect = document.getElementById('venue-name');
+        var selectedVenueIndex = venueSelect.selectedIndex;
+        var selectedVenueOption = venueSelect.options[selectedVenueIndex];
+        var price = selectedVenueOption.getAttribute('data-price');
+        var parsedPrice = parseInt(price);
+        if (!isNaN(parsedPrice)) {
+            document.getElementById('booking-price').value = parsedPrice;
+        } else {
+            document.getElementById('booking-price').value = '';
+        }
+    }
+
+    document.getElementById('venue-name').addEventListener('change', updateBookingPrice);
+
+     const dateInput = document.getElementById('date');
+     const errorMessage = document.querySelector('.invalid-date-message');
+ 
+     dateInput.addEventListener('change', function() {
+         const selectedDate = new Date(this.value);
+         const today = new Date();
+ 
+         if (selectedDate < today) {
+             errorMessage.style.display = 'block';
+             this.value = ''; 
+         } else {
+             errorMessage.style.display = 'none';
+         }
+     });
+ 
+     var urlParams = new URLSearchParams(window.location.search);
+     var bookingPrice = urlParams.get('booking_price');
+     if (bookingPrice !== null) {
+         document.getElementById('booking-price').value = parseInt(bookingPrice);
+     }
+
+</script> 
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Party Plot Management System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .navbarr {
+            background-color: #263238;
+            color: #ffffff;
+            padding: 10px 0px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbarr-brand {
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #ffffff;
+        }
+        
+        .navbarr-nav {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-grow: 1;
+            justify-content: flex-end;
+        }
+        
+        .navv-item {
+            margin-left: 20px;
+        }
+        
+        .navv-link {
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+        
+        .navv-link:hover {
+            color: #cfd8dc;
+            background-color: transparent;
+            text-decoration: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            height: 100%;
+            margin-bottom: 30px;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 40px rgba(255, 99, 71, 0.5);
+        }
+        
+        .card-title {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .card-text {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        footer {
+            background-color: #397B53;
+            padding: 10px;
+            color: #fff;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        .welcome-message {
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+            color: #ff6347;
+            margin-top: 18px;
+            font-family: 'Cormorant Infant', serif;
+            font-size: 34px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>        
+</head>
+<body>
+    <h2 class="welcome-message">{{ welcome_message }}</h2>
+    <nav class="navbarr">
+        <a class="navbarr-brand" href="{% url 'index1' %}">Party Plot Management</a>
+        <ul class="navbarr-nav">
+            <li class="navv-item">
+                <a class="navv-link" href="/add_venue.html">Add Venue</a>
+            </li>
+            <li class="navv-item">
+                <a class="navv-link" href="/all-venues">Edit Venue</a>
+            </li>
+            <li class="navv-item">
+                <a class="navv-link" href="/view_booking.html">View Booking</a>
+            </li>
+            <li class="navv-item">
+                <a class="navv-link" href="/get_reviews.html">Get Reviews</a>
+            </li>
+            <li class="navv-item">
+                <a class="navv-link" href="{% url 'logout' %}">Logout</a>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Add the welcome message with the CSS class -->
+        <h2 class="welcome-message">{{ welcome_message }}</h2>
+        <div class="container mt-5">
+            <div class="row">
+                {% for venue in venues_with_images %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ venue.image.url }}" class="card-img-top" alt="{{ venue.venue_name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ venue.venue_name }}</h5>
+                            <p class="card-text">Location: {{ venue.location }}</p>
+                            <p class="card-text">Capacity: {{ venue.capacity }}</p>
+                            <p class="card-text">Pricing: {{ venue.pricing }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <footer>
+        <p style="font-family: 'Karla', sans-serif;">&copy; 2024 Party Plot Management System. All rights reserved.</p>
+    </footer>
+</body>
+</html>

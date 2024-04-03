@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Bookings</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+ 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+    }
+    
+    .navbarr {
+        background-color: #263238;
+        color: #ffffff;
+        padding: 10px 0px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .navbarr-brand {
+        font-size: 24px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #ffffff;
+    }
+
+    .navbarr-nav {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-grow: 1;
+        justify-content: flex-end;
+    }
+
+    .navv-item {
+        margin-left: 20px;
+    }
+
+    .navv-link {
+        text-decoration: none;
+        color: #ffffff;
+        font-size: 18px;
+        transition: color 0.3s;
+    }
+
+    .navv-link:hover {
+        color: #cfd8dc;
+        background-color: transparent;
+        text-decoration: none;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px;
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        background-color: #444;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        height: 100%;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-title {
+        color: #fff;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        color: #ccc;
+        margin-bottom: 20px;
+        font-size: 1rem;
+    }
+
+    .booking {
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        background-color: #f8f9fa;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: 2px solid #343a40;
+    }
+
+    .booking:hover {
+        background-color: #fff;
+        border-color: #6c757d;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .booking h3 {
+        margin-bottom: 0.5rem;
+        color: #343a40;
+    }
+
+    .booking p {
+        margin-bottom: 0.2rem;
+        color: #6c757d;
+    }
+
+    .text-primary {
+        color: #007bff;
+    }
+
+    .text-success {
+        color: #28a745;
+    }
+
+    .text-danger {
+        color: #dc3545;
+    }
+
+    .text-warning {
+        color: #6f42c1;
+    }
+</style>
+
+</head>
+<body>
+  <nav class="navbarr">
+    <a class="navbarr-brand" href="{% url 'index1' %}">Party Plot Management</a>
+    <ul class="navbarr-nav">
+        <li class="navv-item">
+            <a class="navv-link" href="/add_venue.html">Add Venue</a>
+        </li>
+        <li class="navv-item">
+            <a class="navv-link" href="/all-venues">Edit Venue</a>
+        </li>
+        <li class="navv-item">
+            <a class="navv-link" href="/view_booking.html">View Booking</a>
+        </li>
+        <li class="navv-item">
+            <a class="navv-link" href="/get_reviews.html">Get Reviews</a>
+        </li>
+        <li class="navv-item">
+          <a class="navv-link" href="{% url 'logout' %}">Logout</a>
+    </ul>
+</nav>
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">All Bookings</h1>
+
+    <div id="bookingList">
+      {% if bookings %}
+        {% for booking in bookings %}
+          <div class="booking">
+            <h3>{{ booking.venue.venue_name }}</h3>
+            <p><strong class="text-primary">Date:</strong> {{ booking.date }}</p>
+            <p><strong class="text-success">Customer Name:</strong> {{ booking.customer.name }}</p>
+            <p><strong class="text-warning">Contact:</strong> {{ booking.customer.phoneNo }}</p>
+            <p><strong class="text-danger">Location:</strong> {{ booking.venue.location }}</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No bookings found.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
