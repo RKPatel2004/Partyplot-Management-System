@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Reviews - Party Plot Management System</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+            body {
+              font-family: Arial, sans-serif;
+              background-color: #f5f5f5;
+              margin: 0;
+              padding: 0;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              height: 100vh;
+            }
+            
+            .navbarr {
+                background-color: #263238; 
+                color: #ffffff; 
+                padding: 10px 0px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+                transition: background-color 0.3s; 
+                display: flex;
+                justify-content: space-between; 
+                align-items: center;
+                margin-bottom: 20px; 
+                width: 100%;
+                position: fixed;
+                top: 0;
+                z-index: 1000;
+            }
+        
+            .navbarr-brand {
+                font-size: 24px;
+                font-weight: bold;
+                text-decoration: none;
+                color: #ffffff; 
+            }
+        
+            .navbarr-nav {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-grow: 1;
+                justify-content: flex-end;
+            }
+        
+            .navv-item {
+                margin-left: 20px; 
+            }
+        
+            .navv-link {
+                text-decoration: none;
+                color: #ffffff; 
+                font-size: 18px;
+                transition: color 0.3s; 
+            }
+        
+            .navv-link:hover {
+                color: #cfd8dc; 
+                background-color: transparent; 
+                text-decoration: none; 
+            }
+        
+            .container {
+              max-width: 1200px;
+              margin: 0 auto;
+              padding: 40px;
+            }
+        
+          .card {
+              border: none; 
+              border-radius: 10px; 
+              transition: all 0.3s ease; 
+              background-color: #444; 
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+              padding: 20px; 
+              height: 100%; 
+          }
+        
+          .card:hover {
+              box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+          }
+        
+          .card-title {
+              color: #fff; 
+              font-size: 1.5rem; 
+              margin-bottom: 10px; 
+          }
+        
+          .card-text {
+              color: #ccc; 
+              margin-bottom: 20px; 
+              font-size: 1rem;
+          }
+
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: auto;
+            padding: 60px;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 50px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .review-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .review {
+            background-color: #f8f9fa; 
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s;
+            border: 4px solid transparent; 
+        }
+
+        .review:hover {
+            background-color: #e9ecef; 
+            border-color: #6c757d; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+        }
+
+        .review h3 {
+            margin-top: 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #343a40; 
+        }
+
+        .review p {
+            margin: 10px 0;
+            color: #6c757d; 
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbarr">
+        <a class="navbarr-brand" href="{% url 'index1' %}">Party Plot Management</a>
+        <ul class="navbarr-nav">
+            <li class="navv-item">
+                <a class="navv-link" href="/add_venue.html">Add Venue</a>
+            </li>
+            <li class="navv-item">
+                <a class="navv-link" href="/all-venues">Edit Venue</a>
+            </li>
+            <li class="navv-item">
+                <a class="navv-link" href="/view_booking.html">View Booking</a>
+            </li>
+            <li class="navv-item">
+                <a class="navv-link" href="/get_reviews.html">Get Reviews</a>
+            </li>
+            <li class="navv-item">
+                <a class="navv-link" href="{% url 'logout' %}">Logout</a>
+        </ul>
+    </nav>
+    <div class="container">
+        <h2 style="text-align: center">All Reviews</h2><br><br>
+        <div class="review-list">
+            {% for review in reviews %}
+                <div class="review">
+                    <h3>{{ review.reviewer_name }}</h3>
+                    <p>{{ review.review_text }}</p>
+                    <p>{{ review.created_at|date }}</p>
+                </div>
+            {% empty %}
+                <p>No reviews available.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

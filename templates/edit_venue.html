@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Venue - Party Plot Management</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center">Edit Venue</h1>
+
+    {% if messages %}
+    <div class="alert-messages">
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div id="editVenueForm" class="mt-5">
+        <form method="post" enctype="multipart/form-data" action="{% url 'update_venue' %}">
+
+            <input type="hidden" name="venue_name" value="{{ venue.venue_name }}">
+
+            {% csrf_token %}
+
+
+            <h2>Venue Name : {{ venue.venue_name }}</h2>
+            <br>
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" class="form-control" id="location" name="location" value="{{ venue.location }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="capacity">Capacity:</label>
+                <input type="number" class="form-control" id="capacity" name="capacity" value="{{ venue.capacity }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="amenities">Amenities:</label>
+                <textarea class="form-control" id="amenities" name="amenities" rows="4" required>{{ venue.amenities }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="pricing">Pricing:</label>
+                <input type="text" class="form-control" id="pricing" name="pricing" value="{{ venue.pricing }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="availability">Availability:</label>
+                <select class="form-control" id="availability" name="availability" required>
+                    <option value="yes" {% if venue.availability %}selected{% endif %}>Yes</option>
+                    <option value="no" {% if not venue.availability %}selected{% endif %}>No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Image:</label>
+                <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

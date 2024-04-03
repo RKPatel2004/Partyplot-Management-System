@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews - Party Plot Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .navbarr {
+            background-color: #263238;
+            color: #ffffff;
+            padding: 10px 0px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+    
+        .navbarr-brand {
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #ffffff;
+        }
+    
+        .navbarr-nav {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-grow: 1;
+            justify-content: flex-end;
+        }
+    
+        .navv-item {
+            margin-left: 20px;
+        }
+    
+        .navv-link {
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+    
+        .navv-link:hover {
+            color: #cfd8dc;
+            background-color: transparent;
+            text-decoration: none;
+        }
+    
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+    
+        .reviews-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+        }
+    
+        .review-section {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            margin-top: 50px;
+        }
+    
+        .review-section:first-child {
+            border-right: 1px solid #ccc;
+        }
+    
+        h2 {
+            margin-top: 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+    
+        form {
+            margin-bottom: 20px;
+        }
+    
+        .form-group {
+            margin-bottom: 15px;
+        }
+    
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+    
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+    
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+    
+        button:hover {
+            background-color: #0056b3;
+        }
+    
+        .review {
+            margin-bottom: 20px;
+        }
+    
+        .review h3 {
+            margin-top: 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+    
+        .review p {
+            margin: 0;
+            color: #666;
+        }
+    
+        .review p:last-child {
+            font-style: italic;
+        }
+    
+        @media (max-width: 768px) {
+            .reviews-container {
+                flex-direction: column;
+            }
+    
+            .review-section:first-child {
+                border-right: none;
+                border-bottom: 1px solid #ccc;
+                padding-bottom: 20px;
+            }
+    
+            .review-section {
+                padding: 20px 0;
+                width: 100%;
+                max-width: none;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+    <nav class="navbarr">
+        <a class="navbarr-brand" href="{% url 'index' %}">Party Plot Management</a>
+        <ul class="navbarr-nav">
+          <li class="navv-item">
+            <a class="navv-link" href="{% url 'search_venues' %}">Search Venues</a>
+          </li>
+          <li class="navv-item">
+            <a class="navv-link" href="{% url 'your_booking' %}">Your Booking</a>
+          </li>
+          <li class="navv-item">
+            <a class="navv-link" href="{% url 'reviews' %}">Reviews</a>
+          </li>
+          <li class="navv-item">
+            <a class="navv-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+        </ul>
+      </nav>
+    <div class="container reviews-container">
+        <div class="review-section">
+            <h2>Submit Review</h2>
+            <form id="review-form" action="{% url 'reviews' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Your Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="review-text">Write your review:</label>
+                    <textarea id="review-text" name="review-text" required></textarea>
+                </div>
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
+        <div class="review-section">
+            <h2>All Reviews</h2>
+            <div class="review-list" id="review-list">
+                {% for review in reviews %}
+                <div class="review">
+                    <h3>{{ review.reviewer_name }}</h3>
+                    <p>{{ review.review_text }}</p>
+                    <p>{{ review.created_at|date }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery AJAX -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Submit review form using AJAX
+            $('#review-form').submit(function (e) {
+                e.preventDefault(); // Prevent form submission
+                var form = $(this);
+                $.ajax({
+                    type: 'POST',
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function (response) {
+                        // Prepend new review to review list
+                        $('.review-list').prepend(
+                            '<div class="review">' +
+                            '<h3>' + response.name + '</h3>' +
+                            '<p>' + response.review_text + '</p>' +
+                            '<p>' + response.created_at + '</p>' +
+                            '</div>'
+                        );
+                        // Clear form fields
+                        form.trigger('reset');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Venues - Party Plot Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+    
+        .navbar {
+            background-color: #263238;
+            color: #ffffff;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #ffffff;
+        }
+    
+        .navbar-nav {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-grow: 1;
+            justify-content: flex-end;
+        }
+    
+        .nav-item {
+            margin-right: 20px;
+        }
+    
+        .nav-link {
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+    
+        .nav-link:hover {
+            color: #cfd8dc;
+        }
+        
+        .search-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 700px;
+            margin: 10% 30%;
+        }
+    
+        .search-container h2 {
+            margin-bottom: 20px;
+            color: #263238;
+        }
+    
+        .form-group {
+            margin-bottom: 20px;
+        }
+    
+        .form-group label {
+            font-weight: bold;
+            color: #263238;
+        }
+    
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+    
+        .form-control:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+    
+        .btn-primary {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+    
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    
+</head>
+<body>
+    <nav class="navbar">
+        <a class="navbar-brand" href="{% url 'index' %}">Party Plot Management</a>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'search_venues' %}">Search Venues</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'your_booking' %}">Your Booking</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'reviews' %}">Reviews</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="search-container">
+        <h2 class="mb-4">Search Venues</h2>
+        <form action="{% url 'search_results' %}" method="get">
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <select class="form-control" id="location" name="location" required>
+                    <option value="">Select Location</option>
+                    {% for location in locations %}
+                        <option value="{{ location }}">{{ location }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        <div class="search-results">
+        </div>
+    </div>
+</body>
+</html>
